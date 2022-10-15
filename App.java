@@ -78,12 +78,12 @@ public class App {
                 continue;
             }
         }
-
+        // takes in userInput from phase 0 question and filters input into a string array
         while(programPhase == 1) {
             boolean status = true;
             while(status == true) {
                 try {
-                    userInput = scnr.nextLine().toLowerCase();
+                    userInput = scnr.nextLine().replaceAll("\\p{Punct}", "").toLowerCase();
                     exitProgram(userInput);
                     String stringInputArr[] = userInput.split(" ");
                     // query hashmap response value using string keywords
@@ -118,12 +118,6 @@ public class App {
 	//Check list: Therapist name[Tropic Thunder]     Welcome method[**being worked on**]          Repeating loop until User quits[]
 	
     //              words extracted from user input[]                5 or more pre-defined sentences[done]
-	
-	
-
-
-        
-
     }
 
     /**
@@ -131,10 +125,11 @@ public class App {
      */
     public static void welcomePage() {
         System.out.println("Hello my name is Dr. Tropic Thunder, and I will be your therapist today.");
+        System.out.println("You may leave at any time by typing \"goodbye\"");
         System.out.println("Today we will be talking about how you feel today.");
         System.out.println("This session will work by me asking a question and you answering it");
         System.out.println("If you ever want to end the session just say 'goodbye', and we will end the session.");
-        System.out.println("Let us start. How are you feeling today on a scale of 1-10?:   ");
+        System.out.println("Let us start. How are you feeling today on a scale of 1-10?:");
     }
 
     /**
@@ -143,7 +138,7 @@ public class App {
      */
     public static void exitProgram(String inputElement) {
         if (inputElement.equals("goodbye")) {
-            System.out.println("Thank you for consulting DR. Tropic Thunder!");
+            System.out.println("Thank you for consulting Dr. Tropic Thunder!");
             System.exit(0);    
         }
     }
