@@ -19,6 +19,13 @@ public class App {
         welcomePage();
         // variable to store phases of program execution
         int programPhase = 0;
+        String[] loopQuestions = new String[5];
+        loopQuestions[0] = "What do you think about what you just said?";
+        loopQuestions[1] = "What else?";
+        loopQuestions[2] = "How did you arrive at this point?";
+        loopQuestions[3] = "How are you feeling now after discussing your feelings?";
+        loopQuestions[4] = "Sample";
+        int loopQuestionsIndex = 0;
 
         // take user input as string
         String userInput = scnr.nextLine().toString().toLowerCase();
@@ -36,14 +43,14 @@ public class App {
         userFeeling.put(9,"fantastic");
         userFeeling.put(10,"amazing");
 
-        // Hashmap that contains responses for specific keywords
+        // Hashmap that contains responses for specific keywords. 
         HashMap<String, String> responseList = new HashMap<String, String>();
         // responseList.put("","");        
         responseList.put("know","What do you know or not know?");
-        responseList.put("","");
-        responseList.put("","");
-        responseList.put("","");
-        responseList.put("","");
+        responseList.put("problem","What is the problem you're currently experiencing?");
+        responseList.put("broke up","What exactly led to the break up?");
+        responseList.put("stressed","What exactly is making you stressed?");
+        responseList.put("you","I am here for you, not me. What are do you think?");
         responseList.put("","");
         responseList.put("",""); 
         // System.out.println("why do you feel " + userFeeling.get());
@@ -78,20 +85,33 @@ public class App {
                 continue;
             }
         }
-        // takes in userInput from phase 0 question and filters input into a string array
+        /**
+         * While loop for programPhase == 1 filters the input and takes away punctiation and
+         * reduces it to a lowercase string. The words are then split by space and placed in 
+         * an array
+         * For loop goes through string input array and if a match hits hashmap responseList,
+         * a question from that keyword is returned
+         * @return stringInputArr[i]
+         */
         while(programPhase == 1) {
-            boolean status = true;
+            boolean status= true;
             while(status == true) {
                 try {
                     userInput = scnr.nextLine().replaceAll("\\p{Punct}", "").toLowerCase();
                     exitProgram(userInput);
                     String stringInputArr[] = userInput.split(" ");
-                    // query hashmap response value using string keywords
+                    
                     for (int i=0; i<stringInputArr.length; i++) {
                         if (responseList.containsKey(stringInputArr[i]) == true) {
                             System.out.println(responseList.get(stringInputArr[i]));
                         } else {
-                            continue;
+                            if (loopQuestionsIndex < 5) {
+                                System.out.println(loopQuestions[loopQuestionsIndex]);
+                                loopQuestionsIndex++;
+                            } else {
+                                loopQuestionsIndex = 0;
+                                System.out.println(loopQuestions[loopQuestionsIndex]);
+                            }
                         }
                     }
                 } catch(Exception e) {
@@ -101,9 +121,6 @@ public class App {
             }
         }
 
-    // Exit word is "Goodbye" we can change this as well
-    // String exitWord = "Goodbye";
-    // if user input == "exitWord" end program and run ending print  statements
     //have different responses for different feelings, we can start with "why are you feeling ___?"
     // then we can delve into more specific questions, " >what happened that made you fell sad?"
 		
