@@ -1,36 +1,34 @@
 import java.util.Scanner;
 import java.util.HashMap;
-// import javax.swing.event.SwingPropertyChangeSupport;
-// import java.util.Dictionary;
-// import java.util.Hashtable;
 
 /**
  * A program that mimics ELIZA, a language processing program which returns
  * therapeutic statements
  * Group #10
  * 
- * @author
- * @since
+ * @author Higinio Winston
+ * @since October 15, 2022
  */
 
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner scnr = new Scanner(System.in);
         welcomePage();
+
         // variable to store phases of program execution
         int programPhase = 0;
         String[] loopQuestions = new String[5];
         loopQuestions[0] = "What do you think about what you just said?";
         loopQuestions[1] = "What else?";
         loopQuestions[2] = "How did you arrive at this point?";
-        loopQuestions[3] = "How are you feeling now after discussing your feelings?";
-        loopQuestions[4] = "Sample";
+        loopQuestions[3] = "How are you feeling now after this discussion?";
+        loopQuestions[4] = "What did you want to talk about now?";
         int loopQuestionsIndex = 0;
 
         // take user input as string
         String userInput = scnr.nextLine().toString().toLowerCase();
 
-        //create Hashmap for different feeling types that are associated with numbers 1-10
+        // create Hashmap for different feeling types that are associated with numbers 1-10
         HashMap<Integer, String> userFeeling = new HashMap<Integer, String>();
         userFeeling.put(1,"depressed");
         userFeeling.put(2,"horrible");
@@ -45,22 +43,14 @@ public class App {
 
         // Hashmap that contains responses for specific keywords. 
         HashMap<String, String> responseList = new HashMap<String, String>();
-        // responseList.put("","");        
+        
+        // populate response list hashmap;        
         responseList.put("know","What do you know or not know?");
         responseList.put("problem","What is the problem you're currently experiencing?");
-        responseList.put("broke up","What exactly led to the break up?");
         responseList.put("stressed","What exactly is making you stressed?");
-        responseList.put("you","I am here for you, not me. What are do you think?");
-        responseList.put("","");
-        responseList.put("",""); 
-        // System.out.println("why do you feel " + userFeeling.get());
-        // System.out.println("Why do you think that is?");
-        // System.out.println("I dont quite understand, can you explain further?");
-        // System.out.println("Who made you come to me for help?");
-        // System.out.println("Is there a specific example?");
-        // System.out.println("What can you do differently?");
-        // System.out.println("So you are feeling "+ userFeeling + ", is that correct?" );
-        // System.out.println("So your "+  person + " made you come here?");
+        responseList.put("you","I am here for you, not me. What do you think?");
+        responseList.put("late","What led to you being late, was it in your control?");
+        responseList.put("sleepy","Have you been getting enough sleep?"); 
 
         /**
         * while loop takes in filtered userInput as a lowercase string
@@ -113,6 +103,7 @@ public class App {
                                 System.out.println(loopQuestions[loopQuestionsIndex]);
                             }
                         }
+                        break;
                     }
                 } catch(Exception e) {
                     status = false;
@@ -120,25 +111,10 @@ public class App {
                 }
             }
         }
-
-    //have different responses for different feelings, we can start with "why are you feeling ___?"
-    // then we can delve into more specific questions, " >what happened that made you fell sad?"
-		
-        
-
-    // possible reasons: "Why are you feeling ____?", "How does that make you feel?", "Is there anything else you wanted to talk about?" "What else?"
-    //                      "I'm sorry that you feel ______." "Why do you think that is?"
-
-
-            
-
-	//Check list: Therapist name[Tropic Thunder]     Welcome method[**being worked on**]          Repeating loop until User quits[]
-	
-    //              words extracted from user input[]                5 or more pre-defined sentences[done]
     }
 
     /**
-     * method welcomePage() presents a menu of strings
+     * method welcomePage() presents a menu of strings 
      */
     public static void welcomePage() {
         System.out.println("Hello my name is Dr. Tropic Thunder, and I will be your therapist today.");
