@@ -2,55 +2,61 @@ import java.util.Scanner;
 import java.util.HashMap;
 
 /**
- * A program that mimics ELIZA, a language processing program which returns
+ * DR.TT: A program that mimics ELIZA, a language processing program which returns
  * therapeutic statements
+ * 
  * Group #10
  * 
- * @author Higinio Winston
+ * @author Higinio, Winston
  * @since October 15, 2022
  */
 
 public class App {
+	/**
+	 * Main method maintains a while loop for users to interact with Dr. TT
+	 * @param args
+	 * @throws Exception
+	 */
     public static void main(String[] args) throws Exception {
         Scanner scnr = new Scanner(System.in);
         welcomePage();
 
         // variable to store phases of program execution
         int programPhase = 0;
+        int loopQuestionsIndex = 0;
         String[] loopQuestions = new String[5];
         loopQuestions[0] = "What do you think about what you just said?";
         loopQuestions[1] = "What else?";
         loopQuestions[2] = "How did you arrive at this point?";
         loopQuestions[3] = "How are you feeling now after this discussion?";
         loopQuestions[4] = "What did you want to talk about now?";
-        int loopQuestionsIndex = 0;
 
         // take user input as string
         String userInput = scnr.nextLine().toString().toLowerCase();
-
         // create Hashmap for different feeling types that are associated with numbers 1-10
         HashMap<Integer, String> userFeeling = new HashMap<Integer, String>();
-        userFeeling.put(1,"depressed");
-        userFeeling.put(2,"horrible");
-        userFeeling.put(3,"bad");
-        userFeeling.put(4,"iffy");
-        userFeeling.put(5,"neutral");
-        userFeeling.put(6,"okay");
-        userFeeling.put(7,"good");
-        userFeeling.put(8,"great");
-        userFeeling.put(9,"fantastic");
-        userFeeling.put(10,"amazing");
+        userFeeling.put(1,"1, depressed");
+        userFeeling.put(2,"2, horrible");
+        userFeeling.put(3,"3, bad");
+        userFeeling.put(4,"4, iffy");
+        userFeeling.put(5,"5, neutral");
+        userFeeling.put(6,"6, okay");
+        userFeeling.put(7,"7, good");
+        userFeeling.put(8,"8, great");
+        userFeeling.put(9,"9, fantastic");
+        userFeeling.put(10,"10, amazing");
 
         // Hashmap that contains responses for specific keywords. 
         HashMap<String, String> responseList = new HashMap<String, String>();
-        
-        // populate response list hashmap;        
+        // populate response list hashmap;
+        responseList.put("yes","What do you you want to talk about?");
+        responseList.put("no","Say what you are thinking then.");
         responseList.put("know","What do you know or not know?");
         responseList.put("problem","What is the problem you're currently experiencing?");
         responseList.put("stressed","What exactly is making you stressed?");
         responseList.put("you","I am here for you, not me. What do you think?");
         responseList.put("late","What led to you being late, was it in your control?");
-        responseList.put("sleepy","Have you been getting enough sleep?"); 
+        responseList.put("sleepy","Have you been getting enough sleep?");
 
         /**
         * while loop takes in filtered userInput as a lowercase string
@@ -75,16 +81,20 @@ public class App {
                 continue;
             }
         }
+        
         /**
          * While loop for programPhase == 1 filters the input and takes away punctiation and
          * reduces it to a lowercase string. The words are then split by space and placed in 
          * an array
          * For loop goes through string input array and if a match hits hashmap responseList,
          * a question from that keyword is returned
-         * @return stringInputArr[i]
          */
         while(programPhase == 1) {
-            boolean status= true;
+            boolean status = true;
+            int getResponseList = 1;
+            boolean inputRepeat = false;
+            String programResponse = "";
+            String programResponseNew = "";
             while(status == true) {
                 try {
                     userInput = scnr.nextLine().replaceAll("\\p{Punct}", "").toLowerCase();
@@ -92,20 +102,34 @@ public class App {
                     String stringInputArr[] = userInput.split(" ");
                     
                     for (int i=0; i<stringInputArr.length; i++) {
+                    	getResponseList = 0;
                         if (responseList.containsKey(stringInputArr[i]) == true) {
-                            System.out.println(responseList.get(stringInputArr[i]));
-                        } else {
-                            if (loopQuestionsIndex < 5) {
-                                System.out.println(loopQuestions[loopQuestionsIndex]);
-                                loopQuestionsIndex++;
+                        	programResponseNew = responseList.get(stringInputArr[i]);
+                            if (programResponseNew == programResponse) {
+                            	System.out.println("Would you rather not talk about this?");
+                                getResponseList = 1;
+                                break;
                             } else {
-                                loopQuestionsIndex = 0;
-                                System.out.println(loopQuestions[loopQuestionsIndex]);
+                            	System.out.println(programResponseNew);
+                                getResponseList = 1;
+                                programResponse = programResponseNew;
+                                break;
                             }
+                        } else {
+                        	continue;
                         }
-                        break;
+                    }
+                    if (getResponseList == 0) {
+                        if (loopQuestionsIndex < 5) {
+                            System.out.println(loopQuestions[loopQuestionsIndex]);
+                            loopQuestionsIndex++;
+                        } else {
+                            loopQuestionsIndex = 0;
+                            System.out.println(loopQuestions[loopQuestionsIndex]);
+                        }                    	
                     }
                 } catch(Exception e) {
+                	System.out.println("Error");
                     status = false;
                     break;
                 }
